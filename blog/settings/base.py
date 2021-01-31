@@ -63,6 +63,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'blog.urls'
 
+# Media
+MEDIA_ROOT = str(APPS_DIR('media'))
+MEDIA_URL = '/media/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
