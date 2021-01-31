@@ -23,7 +23,7 @@ from apps.users.models import User, Profile
 from datetime import timedelta
 
 # Serializers
-from apps.users.serializers import ProfileModelSerializer
+from apps.users.serializers.profiles import ProfileModelSerializer
 
 class UserModelSerializer(serializers.ModelSerializer):
     """User model serializer."""

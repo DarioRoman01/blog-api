@@ -3,9 +3,6 @@
 # Rest framework
 from rest_framework import serializers
 
-# Serializers
-from .users import UserModelSerializer
-
 # Models
 from apps.users.models import Profile
 
