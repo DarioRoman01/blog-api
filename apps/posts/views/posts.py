@@ -57,9 +57,13 @@ class PostViewSet(mixins.RetrieveModelMixin,
         queryset = Post.objects.all()
 
         if self.action in ['like', 'retrieve', 'update', 'partial_update', 'destroy']:
+            """all the actions is for one specific post."""
             return queryset.get(pk=self.kwargs['pk'])
 
         elif self.action == 'list':
+            """Filter posts to show only the post of the users that
+            the requesting is following.""" 
+
             user = self.request.user
             id_list = []
             follow_list = list(user.follow.all())
@@ -145,6 +149,8 @@ class PostViewSet(mixins.RetrieveModelMixin,
         return Response(data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
+        """Add extra content to the response."""
+        
         response = super(PostViewSet, self).retrieve(request, *args, **kwargs)
 
         post = self.get_object()
