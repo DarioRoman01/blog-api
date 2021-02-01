@@ -96,3 +96,34 @@ class UsersViewSet(mixins.RetrieveModelMixin,
         serializer.save()
         data = UserModelSerializer(user).data
         return Response(data)
+
+    @action(detail=True, methods=['POST'])
+    def follow(self, request, *args, **kwargs):
+        """Follow action."""
+        user_from = request.user
+        user_to = self.get_object()
+        follows = False
+
+        if user_from.follow.filter(id=user_to.id).exists():
+            user_from.follow.remove(user_to)
+            follows = False
+            user_to.profile.followers -= 1
+            user_to.profile.save()
+
+        else:
+            user_from.follow.add(user_to)
+            follows = True
+            user_to.profile.followers += 1
+            user_to.profile.save()
+
+        if follows == True:
+            message = 'Now you follow {}'.format(user_to.username)
+        else:
+            message = 'You unfollow {}'.format(user_to.username)
+
+        data = {
+            'user': UserModelSerializer(user_to).data,
+            'message': message
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
