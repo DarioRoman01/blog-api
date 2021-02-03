@@ -28,6 +28,12 @@ delete the other database variable
 if you want you can set in the .env file the variables of your database
 ```
 
+```email
+for simulating sending email localy
+run this command in other terminal:
+python3 -m smtpd -n -c DebuggingServer localhost:1025
+```
+
 ```python
 python manage.py makemigrations
 python manage.py migrate

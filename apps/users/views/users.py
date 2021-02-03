@@ -60,6 +60,7 @@ class UsersViewSet(mixins.RetrieveModelMixin,
         }
 
         return Response(data, status=status.HTTP_201_CREATED)
+        
 
     @action(detail=False, methods=['POST'])
     def signup(self, request):
@@ -71,6 +72,7 @@ class UsersViewSet(mixins.RetrieveModelMixin,
 
         return Response(data, status=status.HTTP_201_CREATED)
 
+
     @action(detail=False, methods=['POST'])
     def verify(self, request):
         """Account verification."""
@@ -80,6 +82,7 @@ class UsersViewSet(mixins.RetrieveModelMixin,
         data = {'message': 'Your account has been verified successfuly uwu'}
 
         return Response(data, status=status.HTTP_200_OK)
+
 
     @action(detail=True, methods=['put', 'patch'])
     def profile(self, request, *args, **kwargs):
@@ -97,12 +100,15 @@ class UsersViewSet(mixins.RetrieveModelMixin,
         data = UserModelSerializer(user).data
         return Response(data)
 
+
     @action(detail=True, methods=['POST'])
     def follow(self, request, *args, **kwargs):
         """Follow action."""
         user_from = request.user
         user_to = self.get_object()
         follows = False
+
+        # Check if user_from already follows user_to
 
         if user_from.follow.filter(id=user_to.id).exists():
             user_from.follow.remove(user_to)

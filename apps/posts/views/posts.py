@@ -95,7 +95,7 @@ class PostViewSet(mixins.RetrieveModelMixin,
     
     @action(detail=True, methods=['POST'])
     def comment(self, request, pk):
-        """handle comments for posts."""
+        """handle comments creation for posts."""
 
         post = self.get_object()
         serializer = AddCommentSerializer(
@@ -105,6 +105,7 @@ class PostViewSet(mixins.RetrieveModelMixin,
         serializer.is_valid()
         serializer.save()
 
+        # add coments to the response
         comments = Comment.objects.filter(post=post)
 
         data = {
@@ -116,7 +117,9 @@ class PostViewSet(mixins.RetrieveModelMixin,
 
     @action(detail=True, methods=['POST'])
     def like(self, request, pk):
-        """Handle likes to post. and post like stats"""
+        """Check if the user already like de post and
+           add or remove the like of the post updating
+           post like stats."""
 
         post = self.get_object()
         liked = False
